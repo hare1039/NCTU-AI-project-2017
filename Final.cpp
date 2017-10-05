@@ -66,22 +66,22 @@ void introduction(){
 	printf("\n s : down \n");
 	printf("\n a : left \n");
 	printf("\n d : right \n");
-	printf("\n 1 : ¤f \n");
-	printf("\n 2 : ¤f \n");
-	printf("\n 3 : ¤f\n");
-	printf("     ¤f¤f\n");
-	printf("     ¤f\n");
-	printf("\n 4 : ¤f¤f \n");
-	printf("       ¤f¤f \n");
-	printf("\n 5 :   ¤f¤f\n");
-	printf("     ¤f¤f\n");
-	printf("\n 6 : ¤f\n");
-	printf("     ¤f¤f¤f\n");
-	printf("\n 7 :     ¤f\n");
-	printf("     ¤f¤f¤f\n");
-	printf("\n 8 : ¤f¤f¤f¤f\n");
-	printf("\n 9 : ¤f¤f \n");
-	printf("     ¤f¤f \n");
+	printf("\n 1 : å£ \n");
+	printf("\n 2 : å£ \n");
+	printf("\n 3 : å£\n");
+	printf("     å£å£\n");
+	printf("     å£\n");
+	printf("\n 4 : å£å£ \n");
+	printf("       å£å£ \n");
+	printf("\n 5 :   å£å£\n");
+	printf("     å£å£\n");
+	printf("\n 6 : å£\n");
+	printf("     å£å£å£\n");
+	printf("\n 7 :     å£\n");
+	printf("     å£å£å£\n");
+	printf("\n 8 : å£å£å£å£\n");
+	printf("\n 9 : å£å£ \n");
+	printf("     å£å£ \n");
 	printf("\n c : change directiono of block \n");
 	printf("\n y : make a decision to set up the block in here\n");
 	printf("\n Are you ready\n");
@@ -689,11 +689,11 @@ void player(int player){
                 AI_Error = true;
           }
           else if(p2_used_block[PC_1-1] == true){
-                AI_Error = true;     
+                AI_Error = true;
           }
           else{
                 if((PC_2[0]<1 || PC_2[0]>13)  || (PC_2[1]<1 || PC_2[1]>13)){
-                    AI_Error = true;         
+                    AI_Error = true;
                 }
                 else if((PC_2[0]>0 && PC_2[0]<14)  && (PC_2[1]>0 && PC_2[1]<14)){
                     if(PC_3<1 || PC_3>4){
@@ -871,7 +871,7 @@ void player(int player){
                                 }
                                 AI_Error = true;
                             }
-                            
+
 
                         }
 
@@ -928,7 +928,7 @@ void search_block1(int x,int y){
 	blocklife1[block_end1].x=x;
 	blocklife1[block_end1].y=y;
 	block_end1++;
-	
+
 	//up
 	if(final_map1[x-1][y]==0){
 		search_block1(x-1,y);
@@ -977,7 +977,7 @@ void search_block1(int x,int y){
 	}
 	else{
 	}
-	
+
 	//end
 	return;
 }
@@ -987,7 +987,7 @@ void search_block2(int x,int y){
 	blocklife2[block_end2].x=x;
 	blocklife2[block_end2].y=y;
 	block_end2++;
-	
+
 	//up
 	if(final_map2[x-1][y]==0){
 		search_block2(x-1,y);
@@ -1036,12 +1036,12 @@ void search_block2(int x,int y){
 	}
 	else{
 	}
-	
+
 	//end
 	return;
 }
 
-bool decide_if_live(){	
+bool decide_if_live(){
 	if(boundary_number>1){
 		for(int ii=0;ii<48;ii++){
 			for(int jj=0;jj<boundary_number;jj++){
@@ -1055,7 +1055,7 @@ bool decide_if_live(){
 			}
 		}
 		return true;
-	}	
+	}
 	return false;
 }
 
@@ -1076,7 +1076,7 @@ void clear_live_or_dead_map(){
 
 void dead_or_life2_search(int x,int y){
 	live_or_dead_map[x][y]=1;
-	
+
 	//up
 	if(live_or_dead_map[x-1][y]==0){
 		dead_or_life2_search(x-1,y);
@@ -1101,10 +1101,10 @@ void dead_or_life2_search(int x,int y){
 	}
 	else{
 	}
-	
+
 	//end
 	return;
-	
+
 }
 
 bool decide_if_2_1(int p1){
@@ -1140,10 +1140,10 @@ void clear_search_array(){
 
 
 void search_number(int x,int y){
-	
+
 	final_map[x][y]=1;
 	unkown_number+=1;
-	
+
 	for(int aa=0;aa<30;aa++){
 		if(x==blocklife1[aa].x && y==blocklife1[aa].y && blocklife1[aa].if_live==false){
 			unkown_number+=1;
@@ -1246,10 +1246,10 @@ int main(void)
 		y_of_block=1;
 		player(0);
 	}
-	
+
 	int p1num=0;
 	int p2num=0;
-	//new begin 
+	//new begin
 	for(int aaa=0;aaa<48;aaa++){
 		boundary[aaa]=false;
 	}
@@ -1275,13 +1275,13 @@ int main(void)
 			}
 		}
 	}
-	
+
 	for(int i=0;i<15;i++){
 		for(int j=0;j<15;j++){
 			if(final_map1[i][j]==0){
-				
+
 				search_block1(i,j);
-				
+
 				if(decide_if_live() || decide_if_2_1(1) ){
 					for(int aa=block_begin1;aa<block_end1;aa++){
 						blocklife1[aa].if_live=true;
@@ -1291,20 +1291,20 @@ int main(void)
 					for(int aa=block_begin1;aa<block_end1;aa++){
 						blocklife1[aa].if_live=false;
 					}
-				} 
+				}
 				block_begin1=block_end1;
 				for(int aaa=0;aaa<48;aaa++){
 					boundary[aaa]=false;
 				}
 				boundary_number=0;
-			} 
+			}
 		}
 	}
 	for(int i=0;i<15;i++){
 		for(int j=0;j<15;j++){
 			if(final_map2[i][j]==0){
 				search_block2(i,j);
-			
+
 				if(decide_if_live() || decide_if_2_1(2)){
 					for(int aa=block_begin2;aa<block_end2;aa++){
 						blocklife2[aa].if_live=true;
@@ -1320,7 +1320,7 @@ int main(void)
 					boundary[aaa]=false;
 				}
 				boundary_number=0;
-			} 
+			}
 		}
 	}
 	for(int aaa=0;aaa<30;aaa++){
@@ -1334,7 +1334,7 @@ int main(void)
 	printf(" ");
 	for(int i=0;i<15;i++){
 		for(int j=0;j<15;j++){
-			printf(" %c ",Map[i][j]);	
+			printf(" %c ",Map[i][j]);
 		}
 		printf(" \n ");
 	}
@@ -1359,12 +1359,12 @@ int main(void)
 	printf(" ");
 	for(int i=0;i<15;i++){
 		for(int j=0;j<15;j++){
-			printf(" %d ",final_map[i][j]);	
+			printf(" %d ",final_map[i][j]);
 		}
 		printf(" \n ");
 	}
 	system("pause");
-	
+
 	for(int i=1;i<14;i++){
 		for(int j=1;j<14;j++){
 			if(final_map[i][j]==0){
