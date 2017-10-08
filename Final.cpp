@@ -163,7 +163,7 @@ void printf_temporary_map()
     return;
 }
 
-void transfer()
+void transfer() // I can't understand this
 {
 
     bool row = false;
@@ -536,7 +536,10 @@ void player(int player)
                                 if (Map[x_of_block + ii][y_of_block + jj] == '*') {
                                     Connected_Star = true;
                                 } else if (player) {
-                                    if (Map[x_of_block + ii + 1][y_of_block + jj] == 'O' || Map[x_of_block + ii - 1][y_of_block + jj] == 'O' || Map[x_of_block + ii + 1][y_of_block + jj + 1] == 'O' || Map[x_of_block + ii + 1][y_of_block + jj - 1] == 'O' || Map[x_of_block + ii - 1][y_of_block + jj + 1] == 'O' || Map[x_of_block + ii - 1][y_of_block + jj - 1] == 'O' || Map[x_of_block + ii][y_of_block + jj + 1] == 'O' || Map[x_of_block + ii][y_of_block + jj - 1] == 'O') {
+                                    if (Map[x_of_block + ii + 1][y_of_block + jj] == 'O' || Map[x_of_block + ii - 1][y_of_block + jj] == 'O' ||
+                                        Map[x_of_block + ii + 1][y_of_block + jj + 1] == 'O' || Map[x_of_block + ii + 1][y_of_block + jj - 1] == 'O' ||
+                                        Map[x_of_block + ii - 1][y_of_block + jj + 1] == 'O' || Map[x_of_block + ii - 1][y_of_block + jj - 1] == 'O' ||
+                                        Map[x_of_block + ii][y_of_block + jj + 1] == 'O' || Map[x_of_block + ii][y_of_block + jj - 1] == 'O') {
                                         Connected_Star = true;
                                     }
                                 }
@@ -661,69 +664,69 @@ void player(int player)
                             y_of_block = PC_2[1];
 
                             switch (PC_1) {
-                            case 1:
-                                for (int nn = 0; nn < 4; nn++) {
-                                    for (int mm = 0; mm < 4; mm++) {
-                                        block[nn][mm] = block1[nn][mm];
+                                case 1:
+                                    for (int nn = 0; nn < 4; nn++) {
+                                        for (int mm = 0; mm < 4; mm++) {
+                                            block[nn][mm] = block1[nn][mm];
+                                        }
                                     }
-                                }
-                                break;
-                            case 2:
-                                for (int nn = 0; nn < 4; nn++) {
-                                    for (int mm = 0; mm < 4; mm++) {
-                                        block[nn][mm] = block2[nn][mm];
+                                    break;
+                                case 2:
+                                    for (int nn = 0; nn < 4; nn++) {
+                                        for (int mm = 0; mm < 4; mm++) {
+                                            block[nn][mm] = block2[nn][mm];
+                                        }
                                     }
-                                }
-                                break;
-                            case 3:
-                                for (int nn = 0; nn < 4; nn++) {
-                                    for (int mm = 0; mm < 4; mm++) {
-                                        block[nn][mm] = block3[nn][mm];
+                                    break;
+                                case 3:
+                                    for (int nn = 0; nn < 4; nn++) {
+                                        for (int mm = 0; mm < 4; mm++) {
+                                            block[nn][mm] = block3[nn][mm];
+                                        }
                                     }
-                                }
-                                break;
-                            case 4:
-                                for (int nn = 0; nn < 4; nn++) {
-                                    for (int mm = 0; mm < 4; mm++) {
-                                        block[nn][mm] = block4[nn][mm];
+                                    break;
+                                case 4:
+                                    for (int nn = 0; nn < 4; nn++) {
+                                        for (int mm = 0; mm < 4; mm++) {
+                                            block[nn][mm] = block4[nn][mm];
+                                        }
                                     }
-                                }
-                                break;
-                            case 5:
-                                for (int nn = 0; nn < 4; nn++) {
-                                    for (int mm = 0; mm < 4; mm++) {
-                                        block[nn][mm] = block5[nn][mm];
+                                    break;
+                                case 5:
+                                    for (int nn = 0; nn < 4; nn++) {
+                                        for (int mm = 0; mm < 4; mm++) {
+                                            block[nn][mm] = block5[nn][mm];
+                                        }
                                     }
-                                }
-                                break;
-                            case 6:
-                                for (int nn = 0; nn < 4; nn++) {
-                                    for (int mm = 0; mm < 4; mm++) {
-                                        block[nn][mm] = block6[nn][mm];
+                                    break;
+                                case 6:
+                                    for (int nn = 0; nn < 4; nn++) {
+                                        for (int mm = 0; mm < 4; mm++) {
+                                            block[nn][mm] = block6[nn][mm];
+                                        }
                                     }
-                                }
-                                break;
-                            case 7:
-                                for (int nn = 0; nn < 4; nn++) {
-                                    for (int mm = 0; mm < 4; mm++) {
-                                        block[nn][mm] = block7[nn][mm];
+                                    break;
+                                case 7:
+                                    for (int nn = 0; nn < 4; nn++) {
+                                        for (int mm = 0; mm < 4; mm++) {
+                                            block[nn][mm] = block7[nn][mm];
+                                        }
                                     }
-                                }
-                                break;
-                            case 8:
-                                for (int nn = 0; nn < 4; nn++) {
-                                    for (int mm = 0; mm < 4; mm++) {
-                                        block[nn][mm] = block8[nn][mm];
+                                    break;
+                                case 8:
+                                    for (int nn = 0; nn < 4; nn++) {
+                                        for (int mm = 0; mm < 4; mm++) {
+                                            block[nn][mm] = block8[nn][mm];
+                                        }
                                     }
-                                }
-                                break;
-                            case 9:
-                                for (int nn = 0; nn < 4; nn++) {
-                                    for (int mm = 0; mm < 4; mm++) {
-                                        block[nn][mm] = block9[nn][mm];
+                                    break;
+                                case 9:
+                                    for (int nn = 0; nn < 4; nn++) {
+                                        for (int mm = 0; mm < 4; mm++) {
+                                            block[nn][mm] = block9[nn][mm];
+                                        }
                                     }
-                                }
-                                break;
+                                    break;
                             }
 
                             for (int i = 1; i < PC_3; i++) {
@@ -824,33 +827,33 @@ void player(int player)
             }
 
             switch (using_block) {
-            case 1:
-                p2_used_block[0] = true;
-                break;
-            case 2:
-                p2_used_block[1] = true;
-                break;
-            case 3:
-                p2_used_block[2] = true;
-                break;
-            case 4:
-                p2_used_block[3] = true;
-                break;
-            case 5:
-                p2_used_block[4] = true;
-                break;
-            case 6:
-                p2_used_block[5] = true;
-                break;
-            case 7:
-                p2_used_block[6] = true;
-                break;
-            case 8:
-                p2_used_block[7] = true;
-                break;
-            case 9:
-                p2_used_block[8] = true;
-                break;
+                case 1:
+                    p2_used_block[0] = true;
+                    break;
+                case 2:
+                    p2_used_block[1] = true;
+                    break;
+                case 3:
+                    p2_used_block[2] = true;
+                    break;
+                case 4:
+                    p2_used_block[3] = true;
+                    break;
+                case 5:
+                    p2_used_block[4] = true;
+                    break;
+                case 6:
+                    p2_used_block[5] = true;
+                    break;
+                case 7:
+                    p2_used_block[6] = true;
+                    break;
+                case 8:
+                    p2_used_block[7] = true;
+                    break;
+                case 9:
+                    p2_used_block[8] = true;
+                    break;
             }
             printf_temporary_map();
             for (int i = 1; i < 14; i++) {
