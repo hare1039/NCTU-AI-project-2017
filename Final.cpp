@@ -255,7 +255,7 @@ void player(int player, FILE *sourcefp = stdin)
 
         
         if (player == 1) {
-            // key map [w, a, s, d], [1-9], [c], [y], (new) r for reload???, s
+            // key map [w, a, s, d], [1-9], [c], [y]
             if (fscanf(sourcefp, "%c", &order) == EOF && sourcefp != stdin) {
                 printf("File ended. Switch to stdin.\n");
                 auto_build = false;
