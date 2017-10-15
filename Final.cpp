@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <ctime>
 
+#include <vector>
+#include <string>
 using namespace std;
 struct allblock {
     int x;
@@ -56,6 +58,10 @@ bool boundary[48];
 int boundary_number = 0;
 
 int live_or_dead_map[15][15];
+
+std::vector<std::string> player_history;
+bool auto_build = true; // assume: input from file -> stdin
+
 
 void introduction()
 {
@@ -118,8 +124,8 @@ void reduction_map()
 
 void printf_temporary_map()
 {
-
-    system("clear");
+	//system("clear");
+	system("tput reset");
 
     if (player1 == true) {
         printf("\n               Player1:O               \n\n");
@@ -213,7 +219,7 @@ void transfer() // I can't understand this
     }
 }
 
-void player(int player)
+void player(int player, FILE *sourcefp = stdin)
 {
 
     for (int i = 0; i < 4; i++) {
@@ -230,10 +236,11 @@ void player(int player)
 
     printf_temporary_map();
 
+	std::string history;
     while (1) {
         char order;
         int PC_1;
-        int PC_2[1];
+        int PC_2[2];
         int PC_3;
         bool block_sel = false;
         bool overlapped = false;
@@ -242,10 +249,20 @@ void player(int player)
         bool temp[4][4];
         bool pass = true;
         bool AI_Error = true;
+        if (not auto_build) {
+	        sourcefp = stdin;
+        }
 
+        
         if (player == 1) {
-            scanf("%c", &order);
-
+			// key map [w, a, s, d], [1-9], [c], [y], (new) r for reload???, s
+	        if (fscanf(sourcefp, "%c", &order) == EOF && sourcefp != stdin) {
+				printf("File ended. Switch to stdin.\n");
+				auto_build = false;
+				scanf("%c", &order);
+			}
+			history += order;
+			
             if (order == 'w') {
                 x_of_block -= 1;
                 for (int ii = 0; ii < 4; ii++) {
@@ -536,10 +553,10 @@ void player(int player)
                                 if (Map[x_of_block + ii][y_of_block + jj] == '*') {
                                     Connected_Star = true;
                                 } else if (player) {
-                                    if (Map[x_of_block + ii + 1][y_of_block + jj] == 'O' || Map[x_of_block + ii - 1][y_of_block + jj] == 'O' ||
+                                    if (Map[x_of_block + ii + 1][y_of_block + jj    ] == 'O' || Map[x_of_block + ii - 1][y_of_block + jj    ] == 'O' ||
                                         Map[x_of_block + ii + 1][y_of_block + jj + 1] == 'O' || Map[x_of_block + ii + 1][y_of_block + jj - 1] == 'O' ||
                                         Map[x_of_block + ii - 1][y_of_block + jj + 1] == 'O' || Map[x_of_block + ii - 1][y_of_block + jj - 1] == 'O' ||
-                                        Map[x_of_block + ii][y_of_block + jj + 1] == 'O' || Map[x_of_block + ii][y_of_block + jj - 1] == 'O') {
+                                        Map[x_of_block + ii    ][y_of_block + jj + 1] == 'O' || Map[x_of_block + ii    ][y_of_block + jj - 1] == 'O') {
                                         Connected_Star = true;
                                     }
                                 }
@@ -592,6 +609,11 @@ void player(int player)
                                     Map[i][j] = temporary_map[i][j];
                                 }
                             }
+
+							// commit history
+							player_history.push_back(history);
+							history.clear();
+							
                             return;
                         }
                     } else {
@@ -641,10 +663,20 @@ void player(int player)
                 Out_Range = false;
                 Connected_Star = false;
                 AI_Error = false;
-                PC_1 = (rand() % 9 + 1);
-                PC_2[0] = (rand() % 13 + 1);
-                PC_2[1] = (rand() % 13 + 1);
-                PC_3 = (rand() % 4 + 1);
+
+				if (auto_build) {
+					int scanned = fscanf(sourcefp, "%d,%d,%d,%d,", &PC_1, &PC_2[0], &PC_2[1], &PC_3);
+					if (scanned != 4) {
+						printf("Error on loading commands. Switch to random generate.\n");
+						auto_build = false;
+						continue;
+					}
+				} else {
+					PC_1 = (rand() % 9 + 1);
+					PC_2[0] = (rand() % 13 + 1);
+					PC_2[1] = (rand() % 13 + 1);
+					PC_3 = (rand() % 4 + 1);
+				}
                 if (PC_1 < 1 || PC_1 > 9) {
                     AI_Error = true;
                 } else if (p2_used_block[PC_1 - 1] == true) {
@@ -780,7 +812,10 @@ void player(int player)
                                         if (Map[x_of_block + ii][PC_2[1] + jj] == '*') {
                                             Connected_Star = true;
                                         } else {
-                                            if (Map[x_of_block + ii + 1][y_of_block + jj] == 'X' || Map[x_of_block + ii - 1][y_of_block + jj] == 'X' || Map[x_of_block + ii + 1][y_of_block + jj + 1] == 'X' || Map[x_of_block + ii + 1][y_of_block + jj - 1] == 'X' || Map[x_of_block + ii - 1][y_of_block + jj + 1] == 'X' || Map[x_of_block + ii - 1][y_of_block + jj - 1] == 'X' || Map[x_of_block + ii][y_of_block + jj + 1] == 'X' || Map[x_of_block + ii][y_of_block + jj - 1] == 'X') {
+                                            if (Map[x_of_block + ii + 1][y_of_block + jj    ] == 'X' || Map[x_of_block + ii - 1][y_of_block + jj    ] == 'X' ||
+												Map[x_of_block + ii + 1][y_of_block + jj + 1] == 'X' ||	Map[x_of_block + ii + 1][y_of_block + jj - 1] == 'X' ||
+												Map[x_of_block + ii - 1][y_of_block + jj + 1] == 'X' ||	Map[x_of_block + ii - 1][y_of_block + jj - 1] == 'X' ||
+												Map[x_of_block + ii    ][y_of_block + jj + 1] == 'X' ||	Map[x_of_block + ii    ][y_of_block + jj - 1] == 'X') {
                                                 Connected_Star = true;
                                             }
                                         }
@@ -791,7 +826,8 @@ void player(int player)
                             for (int ii = 0; ii < 4; ii++) {
                                 for (int jj = 0; jj < 4; jj++) {
                                     if (block[ii][jj]) {
-                                        if (Map[x_of_block + ii][y_of_block + jj] == 'O' || Map[x_of_block + ii][y_of_block + jj] == 'X') {
+                                        if (Map[x_of_block + ii][y_of_block + jj] == 'O' ||
+											Map[x_of_block + ii][y_of_block + jj] == 'X') {
                                             overlapped = true;
                                             break;
                                         }
@@ -855,6 +891,12 @@ void player(int player)
                     p2_used_block[8] = true;
                     break;
             }
+
+			// commit player2 history
+			player_history.push_back(std::to_string(PC_1) + "," + 
+									 std::to_string(PC_2[0]) + "," +
+									 std::to_string(PC_2[1]) + "," +
+									 std::to_string(PC_3) + ",");
             printf_temporary_map();
             for (int i = 1; i < 14; i++) {
                 for (int j = 1; j < 14; j++) {
@@ -1147,7 +1189,7 @@ void decide_whose_number()
     return;
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
     //--------initialization----------------
     reduction_block();
@@ -1156,14 +1198,32 @@ int main(void)
 
     reduction_map();
     //--------initialization----------------
+
+	
+	//--------   load game  ----------------
+	FILE* source = stdin;
+	auto_build = false;
+	if (argc == 2) {
+		FILE* opened = fopen(argv[1], "r");
+		if (opened) {
+			source = opened;
+			auto_build = true;
+		}
+	}
+
+	//--------   game loop  ----------------
     for (int k = 0; k < 9; k++) {
         x_of_block = 1;
         y_of_block = 1;
-        player(1);
+        player(1, source);
         x_of_block = 1;
         y_of_block = 1;
-        player(0);
+        player(0, source);
     }
+	if (source != stdin) {
+		fclose(source);
+	}
+	
 
     int p1num = 0;
     int p2num = 0;
@@ -1294,6 +1354,21 @@ int main(void)
     } else {
         printf("DRAW");
     }
+
+	char save_play;
+	printf("save play? [y/n] ");
+	std::fflush(stdin);
+	scanf("%c", &save_play);
+	if (save_play != 'n') {
+		printf("Save as: ");
+		char save_file_name[100];
+		scanf("%s", save_file_name);
+		FILE* fp = fopen(save_file_name, "w");
+		for (const std::string &history : player_history) {
+			fprintf(fp, "%s", history.c_str());
+		}
+		fclose(fp);
+	}
 
     return 0;
 }
