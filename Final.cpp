@@ -124,8 +124,8 @@ void reduction_map()
 
 void printf_temporary_map()
 {
-	//system("clear");
-	system("tput reset");
+    //system("clear");
+    system("tput reset");
 
     if (player1 == true) {
         printf("\n               Player1:O               \n\n");
@@ -236,7 +236,7 @@ void player(int player, FILE *sourcefp = stdin)
 
     printf_temporary_map();
 
-	std::string history;
+    std::string history;
     while (1) {
         char order;
         int PC_1;
@@ -250,19 +250,19 @@ void player(int player, FILE *sourcefp = stdin)
         bool pass = true;
         bool AI_Error = true;
         if (not auto_build) {
-	        sourcefp = stdin;
+            sourcefp = stdin;
         }
 
         
         if (player == 1) {
-			// key map [w, a, s, d], [1-9], [c], [y], (new) r for reload???, s
-	        if (fscanf(sourcefp, "%c", &order) == EOF && sourcefp != stdin) {
-				printf("File ended. Switch to stdin.\n");
-				auto_build = false;
-				scanf("%c", &order);
-			}
-			history += order;
-			
+            // key map [w, a, s, d], [1-9], [c], [y], (new) r for reload???, s
+            if (fscanf(sourcefp, "%c", &order) == EOF && sourcefp != stdin) {
+                printf("File ended. Switch to stdin.\n");
+                auto_build = false;
+                scanf("%c", &order);
+            }
+            history += order;
+            
             if (order == 'w') {
                 x_of_block -= 1;
                 for (int ii = 0; ii < 4; ii++) {
@@ -610,10 +610,10 @@ void player(int player, FILE *sourcefp = stdin)
                                 }
                             }
 
-							// commit history
-							player_history.push_back(history);
-							history.clear();
-							
+                            // commit history
+                            player_history.push_back(history);
+                            history.clear();
+                            
                             return;
                         }
                     } else {
@@ -664,19 +664,19 @@ void player(int player, FILE *sourcefp = stdin)
                 Connected_Star = false;
                 AI_Error = false;
 
-				if (auto_build) {
-					int scanned = fscanf(sourcefp, "%d,%d,%d,%d,", &PC_1, &PC_2[0], &PC_2[1], &PC_3);
-					if (scanned != 4) {
-						printf("Error on loading commands. Switch to random generate.\n");
-						auto_build = false;
-						continue;
-					}
-				} else {
-					PC_1 = (rand() % 9 + 1);
-					PC_2[0] = (rand() % 13 + 1);
-					PC_2[1] = (rand() % 13 + 1);
-					PC_3 = (rand() % 4 + 1);
-				}
+                if (auto_build) {
+                    int scanned = fscanf(sourcefp, "%d,%d,%d,%d,", &PC_1, &PC_2[0], &PC_2[1], &PC_3);
+                    if (scanned != 4) {
+                        printf("Error on loading commands. Switch to random generate.\n");
+                        auto_build = false;
+                        continue;
+                    }
+                } else {
+                    PC_1 = (rand() % 9 + 1);
+                    PC_2[0] = (rand() % 13 + 1);
+                    PC_2[1] = (rand() % 13 + 1);
+                    PC_3 = (rand() % 4 + 1);
+                }
                 if (PC_1 < 1 || PC_1 > 9) {
                     AI_Error = true;
                 } else if (p2_used_block[PC_1 - 1] == true) {
@@ -813,9 +813,9 @@ void player(int player, FILE *sourcefp = stdin)
                                             Connected_Star = true;
                                         } else {
                                             if (Map[x_of_block + ii + 1][y_of_block + jj    ] == 'X' || Map[x_of_block + ii - 1][y_of_block + jj    ] == 'X' ||
-												Map[x_of_block + ii + 1][y_of_block + jj + 1] == 'X' ||	Map[x_of_block + ii + 1][y_of_block + jj - 1] == 'X' ||
-												Map[x_of_block + ii - 1][y_of_block + jj + 1] == 'X' ||	Map[x_of_block + ii - 1][y_of_block + jj - 1] == 'X' ||
-												Map[x_of_block + ii    ][y_of_block + jj + 1] == 'X' ||	Map[x_of_block + ii    ][y_of_block + jj - 1] == 'X') {
+                                                Map[x_of_block + ii + 1][y_of_block + jj + 1] == 'X' || Map[x_of_block + ii + 1][y_of_block + jj - 1] == 'X' ||
+                                                Map[x_of_block + ii - 1][y_of_block + jj + 1] == 'X' || Map[x_of_block + ii - 1][y_of_block + jj - 1] == 'X' ||
+                                                Map[x_of_block + ii    ][y_of_block + jj + 1] == 'X' || Map[x_of_block + ii    ][y_of_block + jj - 1] == 'X') {
                                                 Connected_Star = true;
                                             }
                                         }
@@ -827,7 +827,7 @@ void player(int player, FILE *sourcefp = stdin)
                                 for (int jj = 0; jj < 4; jj++) {
                                     if (block[ii][jj]) {
                                         if (Map[x_of_block + ii][y_of_block + jj] == 'O' ||
-											Map[x_of_block + ii][y_of_block + jj] == 'X') {
+                                            Map[x_of_block + ii][y_of_block + jj] == 'X') {
                                             overlapped = true;
                                             break;
                                         }
@@ -892,11 +892,11 @@ void player(int player, FILE *sourcefp = stdin)
                     break;
             }
 
-			// commit player2 history
-			player_history.push_back(std::to_string(PC_1) + "," + 
-									 std::to_string(PC_2[0]) + "," +
-									 std::to_string(PC_2[1]) + "," +
-									 std::to_string(PC_3) + ",");
+            // commit player2 history
+            player_history.push_back(std::to_string(PC_1) + "," + 
+                                     std::to_string(PC_2[0]) + "," +
+                                     std::to_string(PC_2[1]) + "," +
+                                     std::to_string(PC_3) + ",");
             printf_temporary_map();
             for (int i = 1; i < 14; i++) {
                 for (int j = 1; j < 14; j++) {
@@ -1199,19 +1199,19 @@ int main(int argc, char *argv[])
     reduction_map();
     //--------initialization----------------
 
-	
-	//--------   load game  ----------------
-	FILE* source = stdin;
-	auto_build = false;
-	if (argc == 2) {
-		FILE* opened = fopen(argv[1], "r");
-		if (opened) {
-			source = opened;
-			auto_build = true;
-		}
-	}
+    
+    //--------   load game  ----------------
+    FILE* source = stdin;
+    auto_build = false;
+    if (argc == 2) {
+        FILE* opened = fopen(argv[1], "r");
+        if (opened) {
+            source = opened;
+            auto_build = true;
+        }
+    }
 
-	//--------   game loop  ----------------
+    //--------   game loop  ----------------
     for (int k = 0; k < 9; k++) {
         x_of_block = 1;
         y_of_block = 1;
@@ -1220,10 +1220,10 @@ int main(int argc, char *argv[])
         y_of_block = 1;
         player(0, source);
     }
-	if (source != stdin) {
-		fclose(source);
-	}
-	
+    if (source != stdin) {
+        fclose(source);
+    }
+    
 
     int p1num = 0;
     int p2num = 0;
@@ -1355,20 +1355,20 @@ int main(int argc, char *argv[])
         printf("DRAW");
     }
 
-	char save_play;
-	printf("save play? [y/n] ");
-	std::fflush(stdin);
-	scanf("%c", &save_play);
-	if (save_play != 'n') {
-		printf("Save as: ");
-		char save_file_name[100];
-		scanf("%s", save_file_name);
-		FILE* fp = fopen(save_file_name, "w");
-		for (const std::string &history : player_history) {
-			fprintf(fp, "%s", history.c_str());
-		}
-		fclose(fp);
-	}
+    char save_play;
+    printf("save play? [y/n] ");
+    std::fflush(stdin);
+    scanf("%c", &save_play);
+    if (save_play != 'n') {
+        printf("Save as: ");
+        char save_file_name[100];
+        scanf("%s", save_file_name);
+        FILE* fp = fopen(save_file_name, "w");
+        for (const std::string &history : player_history) {
+            fprintf(fp, "%s", history.c_str());
+        }
+        fclose(fp);
+    }
 
     return 0;
 }
