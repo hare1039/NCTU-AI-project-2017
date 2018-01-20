@@ -2,9 +2,8 @@
 #include <cstdlib>
 #include <ctime>
 
-#include <vector>
-#include <string>
 using namespace std;
+
 struct allblock {
     int x;
     int y;
@@ -59,8 +58,11 @@ int boundary_number = 0;
 
 int live_or_dead_map[15][15];
 
-std::vector<std::string> player_history;
-bool auto_build = true; // assume: input from file -> stdin
+int file_Array1[36];
+int file_Array2[36];
+int block_count1=0;
+int block_count2=0;
+int block_change1=0;
 
 
 void introduction()
@@ -89,7 +91,7 @@ void introduction()
     printf("     口口 \n");
     printf("\n c : change directiono of block \n");
     printf("\n y : make a decision to set up the block in here\n");
-    printf("\n Are you ready\n");
+    printf("\n Are you ready?\n");
     return;
 }
 
@@ -124,13 +126,13 @@ void reduction_map()
 
 void printf_temporary_map()
 {
-    //system("clear");
-    system("tput reset");
+
+    system("clear");
 
     if (player1 == true) {
         printf("\n               Player1:O               \n\n");
     } else {
-        printf("\n              Player2:AI               \n\n");
+        printf("\n               Player2:X               \n\n");
     }
 
     for (int i = 1; i < 14; i++) {
@@ -219,7 +221,7 @@ void transfer() // I can't understand this
     }
 }
 
-void player(int player, FILE *sourcefp = stdin)
+void player(int player, int choice)
 {
 
     for (int i = 0; i < 4; i++) {
@@ -236,11 +238,10 @@ void player(int player, FILE *sourcefp = stdin)
 
     printf_temporary_map();
 
-    std::string history;
     while (1) {
         char order;
         int PC_1;
-        int PC_2[2];
+        int PC_2[1];
         int PC_3;
         bool block_sel = false;
         bool overlapped = false;
@@ -249,20 +250,10 @@ void player(int player, FILE *sourcefp = stdin)
         bool temp[4][4];
         bool pass = true;
         bool AI_Error = true;
-        if (not auto_build) {
-            sourcefp = stdin;
-        }
 
-        
-        if (player == 1) {
-            // key map [w, a, s, d], [1-9], [c], [y]
-            if (fscanf(sourcefp, "%c", &order) == EOF && sourcefp != stdin) {
-                printf("File ended. Switch to stdin.\n");
-                auto_build = false;
-                scanf("%c", &order);
-            }
-            history += order;
-            
+        if (choice == 0) {
+            scanf("%c", &order);
+
             if (order == 'w') {
                 x_of_block -= 1;
                 for (int ii = 0; ii < 4; ii++) {
@@ -340,7 +331,7 @@ void player(int player, FILE *sourcefp = stdin)
                     printf("\nThe Area is out of Range!\n");
                 }
             } else if (order == '1') {
-                if (!p1_used_block[0]) {
+                if ((player == 1 && !p1_used_block[0]) || (player == 0 && !p2_used_block[0])) {
                     using_block = 1;
                     for (int nn = 0; nn < 4; nn++) {
                         for (int mm = 0; mm < 4; mm++) {
@@ -355,7 +346,7 @@ void player(int player, FILE *sourcefp = stdin)
             }
 
             else if (order == '2') {
-                if (!p1_used_block[1]) {
+                if ((player == 1 && !p1_used_block[1]) || (player == 0 && !p2_used_block[1])) {
                     using_block = 2;
                     for (int nn = 0; nn < 4; nn++) {
                         for (int mm = 0; mm < 4; mm++) {
@@ -370,7 +361,7 @@ void player(int player, FILE *sourcefp = stdin)
             }
 
             else if (order == '3') {
-                if (!p1_used_block[2]) {
+                if ((player == 1 && !p1_used_block[2]) || (player == 0 && !p2_used_block[2])) {
                     using_block = 3;
                     for (int nn = 0; nn < 4; nn++) {
                         for (int mm = 0; mm < 4; mm++) {
@@ -385,7 +376,7 @@ void player(int player, FILE *sourcefp = stdin)
             }
 
             else if (order == '4') {
-                if (!p1_used_block[3]) {
+                if ((player == 1 && !p1_used_block[3]) || (player == 0 && !p2_used_block[3])) {
                     using_block = 4;
                     for (int nn = 0; nn < 4; nn++) {
                         for (int mm = 0; mm < 4; mm++) {
@@ -400,7 +391,7 @@ void player(int player, FILE *sourcefp = stdin)
             }
 
             else if (order == '5') {
-                if (!p1_used_block[4]) {
+                if ((player == 1 && !p1_used_block[4]) || (player == 0 && !p2_used_block[4])) {
                     using_block = 5;
                     for (int nn = 0; nn < 4; nn++) {
                         for (int mm = 0; mm < 4; mm++) {
@@ -415,7 +406,7 @@ void player(int player, FILE *sourcefp = stdin)
             }
 
             else if (order == '6') {
-                if (!p1_used_block[5]) {
+                if ((player == 1 && !p1_used_block[5]) || (player == 0 && !p2_used_block[5])) {
                     using_block = 6;
                     for (int nn = 0; nn < 4; nn++) {
                         for (int mm = 0; mm < 4; mm++) {
@@ -430,7 +421,7 @@ void player(int player, FILE *sourcefp = stdin)
             }
 
             else if (order == '7') {
-                if (!p1_used_block[6]) {
+                if ((player == 1 && !p1_used_block[6]) || (player == 0 && !p2_used_block[6])) {
                     using_block = 7;
                     for (int nn = 0; nn < 4; nn++) {
                         for (int mm = 0; mm < 4; mm++) {
@@ -445,7 +436,7 @@ void player(int player, FILE *sourcefp = stdin)
             }
 
             else if (order == '8') {
-                if (!p1_used_block[7]) {
+                if ((player == 1 && !p1_used_block[7]) || (player == 0 && !p2_used_block[7])) {
                     using_block = 8;
                     for (int nn = 0; nn < 4; nn++) {
                         for (int mm = 0; mm < 4; mm++) {
@@ -460,7 +451,7 @@ void player(int player, FILE *sourcefp = stdin)
             }
 
             else if (order == '9') {
-                if (!p1_used_block[8]) {
+                if ((player == 1 && !p1_used_block[8]) || (player == 0 && !p2_used_block[8])) {
                     using_block = 9;
                     for (int nn = 0; nn < 4; nn++) {
                         for (int mm = 0; mm < 4; mm++) {
@@ -496,7 +487,8 @@ void player(int player, FILE *sourcefp = stdin)
                 block[3][1] = temp[2][3];
                 block[3][2] = temp[1][3];
                 block[3][3] = temp[0][3];
-
+				block_change1+=1;
+				
                 for (int ii = 0; ii < 4; ii++) {
                     for (int jj = 0; jj < 4; jj++) {
                         if (block[ii][jj]) {
@@ -530,6 +522,7 @@ void player(int player, FILE *sourcefp = stdin)
                     block[3][1] = temp[3][1];
                     block[3][2] = temp[3][2];
                     block[3][3] = temp[3][3];
+                    block_change1-=1;
                 }
                 printf_temporary_map();
                 if (Out_Range) {
@@ -553,10 +546,13 @@ void player(int player, FILE *sourcefp = stdin)
                                 if (Map[x_of_block + ii][y_of_block + jj] == '*') {
                                     Connected_Star = true;
                                 } else if (player) {
-                                    if (Map[x_of_block + ii + 1][y_of_block + jj    ] == 'O' || Map[x_of_block + ii - 1][y_of_block + jj    ] == 'O' ||
-                                        Map[x_of_block + ii + 1][y_of_block + jj + 1] == 'O' || Map[x_of_block + ii + 1][y_of_block + jj - 1] == 'O' ||
-                                        Map[x_of_block + ii - 1][y_of_block + jj + 1] == 'O' || Map[x_of_block + ii - 1][y_of_block + jj - 1] == 'O' ||
-                                        Map[x_of_block + ii    ][y_of_block + jj + 1] == 'O' || Map[x_of_block + ii    ][y_of_block + jj - 1] == 'O') {
+                                    if (Map[x_of_block + ii + 1][y_of_block + jj] == 'O' || Map[x_of_block + ii - 1][y_of_block + jj] == 'O' ||
+                                        Map[x_of_block + ii ][y_of_block + jj + 1] == 'O' || Map[x_of_block + ii ][y_of_block + jj - 1] == 'O') {
+                                        Connected_Star = true;
+                                    }
+                                } else if(!player){
+                                    if (Map[x_of_block + ii + 1][y_of_block + jj] == 'X' || Map[x_of_block + ii - 1][y_of_block + jj] == 'X' ||
+                                        Map[x_of_block + ii ][y_of_block + jj + 1] == 'X' || Map[x_of_block + ii ][y_of_block + jj - 1] == 'X') {
                                         Connected_Star = true;
                                     }
                                 }
@@ -584,36 +580,62 @@ void player(int player, FILE *sourcefp = stdin)
                         }
 
                         else {
-                            if (using_block == 1) {
-                                p1_used_block[0] = true;
-                            } else if (using_block == 2) {
-                                p1_used_block[1] = true;
-                            } else if (using_block == 3) {
-                                p1_used_block[2] = true;
-                            } else if (using_block == 4) {
-                                p1_used_block[3] = true;
-                            } else if (using_block == 5) {
-                                p1_used_block[4] = true;
-                            } else if (using_block == 6) {
-                                p1_used_block[5] = true;
-                            } else if (using_block == 7) {
-                                p1_used_block[6] = true;
-                            } else if (using_block == 8) {
-                                p1_used_block[7] = true;
-                            } else if (using_block == 9) {
-                                p1_used_block[8] = true;
+                            if(player == 1){
+                                if (using_block == 1) {
+                                    p1_used_block[0] = true;
+                                } else if (using_block == 2) {
+                                    p1_used_block[1] = true;
+                                } else if (using_block == 3) {
+                                    p1_used_block[2] = true;
+                                } else if (using_block == 4) {
+                                    p1_used_block[3] = true;
+                                } else if (using_block == 5) {
+                                    p1_used_block[4] = true;
+                                } else if (using_block == 6) {
+                                    p1_used_block[5] = true;
+                                } else if (using_block == 7) {
+                                    p1_used_block[6] = true;
+                                } else if (using_block == 8) {
+                                    p1_used_block[7] = true;
+                                } else if (using_block == 9) {
+                                    p1_used_block[8] = true;
+                                }
                             }
+                            else{
+                                if (using_block == 1) {
+                                    p2_used_block[0] = true;
+                                } else if (using_block == 2) {
+                                    p2_used_block[1] = true;
+                                } else if (using_block == 3) {
+                                    p2_used_block[2] = true;
+                                } else if (using_block == 4) {
+                                    p2_used_block[3] = true;
+                                } else if (using_block == 5) {
+                                    p2_used_block[4] = true;
+                                } else if (using_block == 6) {
+                                    p2_used_block[5] = true;
+                                } else if (using_block == 7) {
+                                    p2_used_block[6] = true;
+                                } else if (using_block == 8) {
+                                    p2_used_block[7] = true;
+                                } else if (using_block == 9) {
+                                    p2_used_block[8] = true;
+                                }
+                            }
+                            
                             printf_temporary_map();
                             for (int i = 1; i < 14; i++) {
                                 for (int j = 1; j < 14; j++) {
                                     Map[i][j] = temporary_map[i][j];
                                 }
                             }
-
-                            // commit history
-                            player_history.push_back(history);
-                            history.clear();
-                            
+                            int direct1=(block_change1%4);
+                            file_Array1[block_count1]=x_of_block;
+                            file_Array1[block_count1+1]=y_of_block;
+                            file_Array1[block_count1+2]=using_block;
+                            file_Array1[block_count1+3]=direct1;
+                            block_count1+=4;
+                            block_change1=0;
                             return;
                         }
                     } else {
@@ -656,30 +678,20 @@ void player(int player, FILE *sourcefp = stdin)
 
         //----------------------------------Player2---------------------------------------//
 
-        else if (player == 0) {
+        else if (choice == 1) {
 
             while (AI_Error == true) {
                 overlapped = false;
                 Out_Range = false;
                 Connected_Star = false;
                 AI_Error = false;
-
-                if (auto_build) {
-                    int scanned = fscanf(sourcefp, "%d,%d,%d,%d,", &PC_1, &PC_2[0], &PC_2[1], &PC_3);
-                    if (scanned != 4) {
-                        printf("Error on loading commands. Switch to random generate.\n");
-                        auto_build = false;
-                        continue;
-                    }
-                } else {
-                    PC_1 = (rand() % 9 + 1);
-                    PC_2[0] = (rand() % 13 + 1);
-                    PC_2[1] = (rand() % 13 + 1);
-                    PC_3 = (rand() % 4 + 1);
-                }
+                PC_1 = (rand() % 9 + 1);
+                PC_2[0] = (rand() % 13 + 1);
+                PC_2[1] = (rand() % 13 + 1);
+                PC_3 = (rand() % 4 + 1);
                 if (PC_1 < 1 || PC_1 > 9) {
                     AI_Error = true;
-                } else if (p2_used_block[PC_1 - 1] == true) {
+                } else if ((player == 1 && p1_used_block[PC_1 - 1] == true) || (player == 0 && p2_used_block[PC_1 - 1] == true)) {
                     AI_Error = true;
                 } else {
                     if ((PC_2[0] < 1 || PC_2[0] > 13) || (PC_2[1] < 1 || PC_2[1] > 13)) {
@@ -809,14 +821,20 @@ void player(int player, FILE *sourcefp = stdin)
                             for (int ii = 0; ii < 4; ii++) {
                                 for (int jj = 0; jj < 4; jj++) {
                                     if (block[ii][jj]) {
-                                        if (Map[x_of_block + ii][PC_2[1] + jj] == '*') {
+                                        if (Map[PC_2[0] + ii][PC_2[1] + jj] == '*') {
                                             Connected_Star = true;
                                         } else {
-                                            if (Map[x_of_block + ii + 1][y_of_block + jj    ] == 'X' || Map[x_of_block + ii - 1][y_of_block + jj    ] == 'X' ||
-                                                Map[x_of_block + ii + 1][y_of_block + jj + 1] == 'X' || Map[x_of_block + ii + 1][y_of_block + jj - 1] == 'X' ||
-                                                Map[x_of_block + ii - 1][y_of_block + jj + 1] == 'X' || Map[x_of_block + ii - 1][y_of_block + jj - 1] == 'X' ||
-                                                Map[x_of_block + ii    ][y_of_block + jj + 1] == 'X' || Map[x_of_block + ii    ][y_of_block + jj - 1] == 'X') {
-                                                Connected_Star = true;
+                                            if(player){
+                                                if (Map[PC_2[0] + ii + 1][PC_2[1] + jj] == 'O' || Map[PC_2[0] + ii - 1][PC_2[1] + jj] == 'O' || 
+                                                Map[PC_2[0] + ii ][PC_2[1] + jj + 1] == 'O' || Map[PC_2[0] + ii ][PC_2[1] + jj - 1] == 'O') {
+                                                    Connected_Star = true;
+                                                }
+                                            }
+                                            else{
+                                                if (Map[PC_2[0] + ii + 1][PC_2[1] + jj] == 'X' || Map[PC_2[0] + ii - 1][PC_2[1] + jj] == 'X' || 
+                                                Map[PC_2[0] + ii ][PC_2[1] + jj + 1] == 'X' || Map[PC_2[0] + ii ][PC_2[1] + jj - 1] == 'X') {
+                                                    Connected_Star = true;
+                                                }
                                             }
                                         }
                                     }
@@ -826,8 +844,7 @@ void player(int player, FILE *sourcefp = stdin)
                             for (int ii = 0; ii < 4; ii++) {
                                 for (int jj = 0; jj < 4; jj++) {
                                     if (block[ii][jj]) {
-                                        if (Map[x_of_block + ii][y_of_block + jj] == 'O' ||
-                                            Map[x_of_block + ii][y_of_block + jj] == 'X') {
+                                        if (Map[PC_2[0] + ii][PC_2[1] + jj] == 'O' || Map[PC_2[0] + ii][PC_2[1] + jj] == 'X') {
                                             overlapped = true;
                                             break;
                                         }
@@ -864,45 +881,91 @@ void player(int player, FILE *sourcefp = stdin)
 
             switch (using_block) {
                 case 1:
-                    p2_used_block[0] = true;
+                    if(player == 1){
+                        p1_used_block[0] = true;
+                    }
+                    else{
+                        p2_used_block[0] = true;
+                    }
                     break;
                 case 2:
-                    p2_used_block[1] = true;
+                    if(player == 1){
+                        p1_used_block[1] = true;
+                    }
+                    else{
+                        p2_used_block[1] = true;
+                    }
                     break;
                 case 3:
-                    p2_used_block[2] = true;
+                    if(player == 1){
+                        p1_used_block[2] = true;
+                    }
+                    else{
+                        p2_used_block[2] = true;
+                    }
                     break;
                 case 4:
-                    p2_used_block[3] = true;
+                    if(player == 1){
+                        p1_used_block[3] = true;
+                    }
+                    else{
+                        p2_used_block[3] = true;
+                    }
                     break;
                 case 5:
-                    p2_used_block[4] = true;
+                    if(player == 1){
+                        p1_used_block[4] = true;
+                    }
+                    else{
+                        p2_used_block[4] = true;
+                    }
                     break;
                 case 6:
-                    p2_used_block[5] = true;
+                    if(player == 1){
+                        p1_used_block[5] = true;
+                    }
+                    else{
+                        p2_used_block[5] = true;
+                    }
                     break;
                 case 7:
-                    p2_used_block[6] = true;
+                    if(player == 1){
+                        p1_used_block[6] = true;
+                    }
+                    else{
+                        p2_used_block[6] = true;
+                    }
                     break;
                 case 8:
-                    p2_used_block[7] = true;
+                    if(player == 1){
+                        p1_used_block[7] = true;
+                    }
+                    else{
+                        p2_used_block[7] = true;
+                    }
                     break;
                 case 9:
-                    p2_used_block[8] = true;
+                    if(player == 1){
+                        p1_used_block[8] = true;
+                    }
+                    else{
+                        p2_used_block[8] = true;
+                    }
                     break;
             }
-
-            // commit player2 history
-            player_history.push_back(std::to_string(PC_1) + "," + 
-                                     std::to_string(PC_2[0]) + "," +
-                                     std::to_string(PC_2[1]) + "," +
-                                     std::to_string(PC_3) + ",");
             printf_temporary_map();
             for (int i = 1; i < 14; i++) {
                 for (int j = 1; j < 14; j++) {
                     Map[i][j] = temporary_map[i][j];
                 }
             }
+            file_Array2[block_count2]=PC_2[0];
+            file_Array2[block_count2+1]=PC_2[1];
+            file_Array2[block_count2+2]=PC_1;
+            file_Array2[block_count2+3]=PC_3-1;
+            block_count2+=4;
+            
+            
             return;
         }
     }
@@ -1189,7 +1252,7 @@ void decide_whose_number()
     return;
 }
 
-int main(int argc, char *argv[])
+int main(void)
 {
     //--------initialization----------------
     reduction_block();
@@ -1199,31 +1262,74 @@ int main(int argc, char *argv[])
     reduction_map();
     //--------initialization----------------
 
-    
-    //--------   load game  ----------------
-    FILE* source = stdin;
-    auto_build = false;
-    if (argc == 2) {
-        FILE* opened = fopen(argv[1], "r");
-        if (opened) {
-            source = opened;
-            auto_build = true;
-        }
+    int choice;
+
+    printf("\n\n");
+    printf("1. Player VS Player\n");
+    printf("2. AI VS AI\n");
+    printf("3. Player V AI\n");
+    printf("4. AI V Player\n");
+    printf("Please Select Play Mode：");
+    scanf("%d",&choice);
+    printf("\n");
+
+    while(choice < 1 || choice > 4){
+        printf("Please select available play mode!\n");
+        printf("Please Select Play Mode：");
+        scanf("%d",&choice);
+        printf("\n");
     }
 
-    //--------   game loop  ----------------
-    for (int k = 0; k < 9; k++) {
-        x_of_block = 1;
-        y_of_block = 1;
-        player(1, source);
-        x_of_block = 1;
-        y_of_block = 1;
-        player(0, source);
+    system("clear");
+
+    switch(choice){
+        case 1:
+            for (int k = 0; k < 9; k++) {
+                x_of_block = 1;
+                y_of_block = 1;
+                player(1,0);
+                x_of_block = 1;
+                y_of_block = 1;
+                player(0,0);
+            }
+            break;
+        
+        case 2:
+            for (int k = 0; k < 9; k++) {
+                x_of_block = 1;
+                y_of_block = 1;
+                player(1,1);
+                x_of_block = 1;
+                y_of_block = 1;
+                player(0,1);
+            }
+            break;
+       
+        case 3:
+            for (int k = 0; k < 9; k++) {
+                x_of_block = 1;
+                y_of_block = 1;
+                player(1,0);
+                x_of_block = 1;
+                y_of_block = 1;
+                player(0,1);
+            }
+            break;
+        
+        case 4:
+            for (int k = 0; k < 9; k++) {
+                x_of_block = 1;
+                y_of_block = 1;
+                player(1,1);
+                x_of_block = 1;
+                y_of_block = 1;
+                player(0,0);
+            }
+            break;
+
     }
-    if (source != stdin) {
-        fclose(source);
-    }
-    
+
+    printf("\n----------------------Finish----------------------\n");
 
     int p1num = 0;
     int p2num = 0;
@@ -1345,29 +1451,39 @@ int main(int argc, char *argv[])
             }
         }
     }
+    
     printf("territory of p1: %d\n", number_of_p1);
     printf("territory of p2: %d\n", number_of_p2);
     if (number_of_p1 > number_of_p2) {
+    	FILE *fp;
+	    fp = fopen("history.txt","a");
+	    for(int i=0;i<35;i++){
+			fprintf(fp,"%d " ,file_Array1[i]);
+		}
+		fprintf(fp,"%d\n" ,file_Array1[35]);
+		
+		for(int i=0;i<35;i++){
+			fprintf(fp,"%d " ,file_Array2[i]);
+		}
+		fprintf(fp,"%d\n" ,file_Array2[35]);
+	    fclose(fp);
         printf("P1 win\n");
     } else if (number_of_p1 < number_of_p2) {
+    	FILE *fp;
+	    fp = fopen("history.txt","a");
+	    for(int i=0;i<35;i++){
+			fprintf(fp,"%d " ,file_Array2[i]);
+		}
+		fprintf(fp,"%d\n" ,file_Array2[35]);
+		
+		for(int i=0;i<35;i++){
+			fprintf(fp,"%d " ,file_Array1[i]);
+		}
+		fprintf(fp,"%d\n" ,file_Array1[35]);
+	    fclose(fp);
         printf("P2 win\n");
     } else {
         printf("DRAW");
-    }
-
-    char save_play;
-    printf("save play? [y/n] ");
-    std::fflush(stdin);
-    scanf("%c", &save_play);
-    if (save_play != 'n') {
-        printf("Save as: ");
-        char save_file_name[100];
-        scanf("%s", save_file_name);
-        FILE* fp = fopen(save_file_name, "w");
-        for (const std::string &history : player_history) {
-            fprintf(fp, "%s", history.c_str());
-        }
-        fclose(fp);
     }
 
     return 0;
